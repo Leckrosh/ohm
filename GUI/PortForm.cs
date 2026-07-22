@@ -68,7 +68,11 @@ namespace OpenHardwareMonitor.GUI {
 
     private void webServerLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
       try {
-        Process.Start(new ProcessStartInfo(e.Link.LinkData.ToString()));
+        // UseShellExecute defaults to false on .NET (Core), but opening
+        // links requires the shell
+        Process.Start(new ProcessStartInfo(e.Link.LinkData.ToString()) {
+          UseShellExecute = true
+        });
       } catch { }
     }
 

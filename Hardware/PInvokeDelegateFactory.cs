@@ -4,7 +4,7 @@
   License, v. 2.0. If a copy of the MPL was not distributed with this
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
  
-  Copyright (C) 2009-2012 Michael Möller <mmoeller@openhardwaremonitor.org>
+  Copyright (C) 2009-2012 Michael Mï¿½ller <mmoeller@openhardwaremonitor.org>
 	
 */
 
@@ -19,8 +19,8 @@ namespace OpenHardwareMonitor.Hardware {
 
   internal static class PInvokeDelegateFactory {
 
-    private static readonly ModuleBuilder moduleBuilder = 
-      AppDomain.CurrentDomain.DefineDynamicAssembly(
+    private static readonly ModuleBuilder moduleBuilder =
+      AssemblyBuilder.DefineDynamicAssembly(
         new AssemblyName("PInvokeDelegateFactoryInternalAssembly"),
         AssemblyBuilderAccess.Run).DefineDynamicModule(
         "PInvokeDelegateFactoryInternalModule");

@@ -90,7 +90,9 @@ namespace Aga.Controls.Threading
 				{
 					if (allowAbort)
 					{
-						_threads[item].Abort();
+						// Thread.Abort is not supported on .NET (Core);
+						// Interrupt wakes the thread from blocking waits instead.
+						_threads[item].Interrupt();
 						_threads.Remove(item);
 						return WorkItemStatus.Aborted;
 					}
@@ -109,8 +111,10 @@ namespace Aga.Controls.Threading
 				_callbacks.Clear();
 				if (allowAbort)
 				{
+					// Thread.Abort is not supported on .NET (Core);
+					// Interrupt wakes the threads from blocking waits instead.
 					foreach (Thread t in _threads.Values)
-						t.Abort();
+						t.Interrupt();
 				}
 			}
 		}

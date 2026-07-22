@@ -2,4 +2,7 @@
 *.suo
 Bin/
 Obj/
+bin/
+obj/
 .vs/
+publish/
