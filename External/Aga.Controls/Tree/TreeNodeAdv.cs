@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Security.Permissions;
 
 namespace Aga.Controls.Tree
 {
@@ -455,7 +454,6 @@ namespace Aga.Controls.Tree
 
 		}
 
-		[SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("IsExpanded", IsExpanded);

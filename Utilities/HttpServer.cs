@@ -78,11 +78,15 @@ namespace OpenHardwareMonitor.Utilities {
         return false;
 
       try {
-        listenerThread.Abort();
+        // Thread.Abort is not supported on .NET (Core); stopping the listener
+        // completes the pending BeginGetContext operation, which lets the
+        // request loop observe IsListening == false and exit.
         listener.Stop();
-        listenerThread = null;
+        if (listenerThread != null) {
+          listenerThread.Join();
+          listenerThread = null;
+        }
       } catch (HttpListenerException) {
-      } catch (ThreadAbortException) {
       } catch (NullReferenceException) {
       } catch (Exception) {
       }

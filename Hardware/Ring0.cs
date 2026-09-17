@@ -202,7 +202,8 @@ namespace OpenHardwareMonitor.Hardware {
         isaBusMutex = new Mutex(false, isaMutexName);
       } catch (UnauthorizedAccessException) {
         try {
-          isaBusMutex = Mutex.OpenExisting(isaMutexName, MutexRights.Synchronize);
+          isaBusMutex = MutexAcl.OpenExisting(isaMutexName,
+            MutexRights.Synchronize);
         } catch { }
       }
 
@@ -211,7 +212,8 @@ namespace OpenHardwareMonitor.Hardware {
         pciBusMutex = new Mutex(false, pciMutexName);
       } catch (UnauthorizedAccessException) {
         try {
-          pciBusMutex = Mutex.OpenExisting(pciMutexName, MutexRights.Synchronize);
+          pciBusMutex = MutexAcl.OpenExisting(pciMutexName,
+            MutexRights.Synchronize);
         } catch { }
       }
     }

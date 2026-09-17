@@ -13,7 +13,6 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -27,19 +26,12 @@ namespace OpenHardwareMonitor.GUI {
     private byte opacity = 255;
     private Point location = new Point(100, 100);
     private Size size = new Size(130, 84);
-    private ContextMenu contextMenu = null;
-    private MethodInfo commandDispatch;
+    private ContextMenuStrip contextMenu = null;
     private IntPtr handleBitmapDC;
     private Size bufferSize;
     private Graphics graphics;
 
     public GadgetWindow() {
-      Type commandType = 
-        typeof(Form).Assembly.GetType("System.Windows.Forms.Command");
-      commandDispatch = commandType.GetMethod("DispatchID", 
-        BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public, 
-        null, new Type[]{ typeof(int) }, null);
-
       this.CreateHandle(CreateParams);
 
       // move window to the bottom
@@ -75,9 +67,7 @@ namespace OpenHardwareMonitor.GUI {
     }
 
     private void ShowContextMenu(Point position) {
-      NativeMethods.TrackPopupMenuEx(contextMenu.Handle, 
-        TPM_RIGHTBUTTON | TPM_VERTICAL, position.X,
-        position.Y, Handle, IntPtr.Zero);
+      contextMenu.Show(position);
     }
 
     protected virtual CreateParams CreateParams {
@@ -94,12 +84,6 @@ namespace OpenHardwareMonitor.GUI {
 
     protected override void WndProc(ref Message message) {
       switch (message.Msg) {
-        case WM_COMMAND: {
-            // need to dispatch the message for the context menu
-            if (message.LParam == IntPtr.Zero)
-              commandDispatch.Invoke(null, new object[] { 
-              message.WParam.ToInt32() & 0xFFFF });
-          } break;
         case WM_NCHITTEST: {
             message.Result = (IntPtr)HitResult.Caption;
             if (HitTest != null) {
@@ -366,7 +350,7 @@ namespace OpenHardwareMonitor.GUI {
 
     public event EventHandler LocationChanged;
 
-    public ContextMenu ContextMenu {
+    public ContextMenuStrip ContextMenuStrip {
       get {
         return contextMenu;
       }

@@ -1,5 +1,15 @@
 <Project>
  <PropertyGroup>
    <LangVersion>7.3</LangVersion>
+   <!-- OpenHardwareMonitor.csproj and OpenHardwareMonitorLib.csproj live in the
+        same directory, so each project needs its own obj/bin folder. -->
+   <BaseIntermediateOutputPath>obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+   <BaseOutputPath>Bin\$(MSBuildProjectName)\</BaseOutputPath>
+   <!-- Assembly attributes are provided by the checked-in AssemblyInfo.cs files. -->
+   <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+ </PropertyGroup>
+ <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+   <!-- Keep line numbers in crash reports without emitting loose .pdb files. -->
+   <DebugType>embedded</DebugType>
  </PropertyGroup>
 </Project>

@@ -680,55 +680,55 @@ namespace OpenHardwareMonitor.GUI {
       if (info.Node != null) {
         SensorNode node = info.Node.Tag as SensorNode;
         if (node != null && node.Sensor != null) {
-          treeContextMenu.MenuItems.Clear();
+          treeContextMenu.Items.Clear();
           if (node.Sensor.Parameters.Length > 0) {
-            MenuItem item = new MenuItem("Parameters...");
+            ToolStripMenuItem item = new ToolStripMenuItem("Parameters...");
             item.Click += delegate(object obj, EventArgs args) {
               ShowParameterForm(node.Sensor);
             };
-            treeContextMenu.MenuItems.Add(item);
+            treeContextMenu.Items.Add(item);
           }
           if (nodeTextBoxText.EditEnabled) {
-            MenuItem item = new MenuItem("Rename");
+            ToolStripMenuItem item = new ToolStripMenuItem("Rename");
             item.Click += delegate(object obj, EventArgs args) {
               nodeTextBoxText.BeginEdit();
             };
-            treeContextMenu.MenuItems.Add(item);
+            treeContextMenu.Items.Add(item);
           }
           if (node.IsVisible) {
-            MenuItem item = new MenuItem("Hide");
+            ToolStripMenuItem item = new ToolStripMenuItem("Hide");
             item.Click += delegate(object obj, EventArgs args) {
               node.IsVisible = false;
             };
-            treeContextMenu.MenuItems.Add(item);
+            treeContextMenu.Items.Add(item);
           } else {
-            MenuItem item = new MenuItem("Unhide");
+            ToolStripMenuItem item = new ToolStripMenuItem("Unhide");
             item.Click += delegate(object obj, EventArgs args) {
               node.IsVisible = true;
             };
-            treeContextMenu.MenuItems.Add(item);
+            treeContextMenu.Items.Add(item);
           }
-          treeContextMenu.MenuItems.Add(new MenuItem("-"));
+          treeContextMenu.Items.Add(new ToolStripSeparator());
           {
-            MenuItem item = new MenuItem("Pen Color...");
+            ToolStripMenuItem item = new ToolStripMenuItem("Pen Color...");
             item.Click += delegate(object obj, EventArgs args) {
               ColorDialog dialog = new ColorDialog();
               dialog.Color = node.PenColor.GetValueOrDefault();
               if (dialog.ShowDialog() == DialogResult.OK)
                 node.PenColor = dialog.Color;
             };
-            treeContextMenu.MenuItems.Add(item);
+            treeContextMenu.Items.Add(item);
           }
           {
-            MenuItem item = new MenuItem("Reset Pen Color");
+            ToolStripMenuItem item = new ToolStripMenuItem("Reset Pen Color");
             item.Click += delegate(object obj, EventArgs args) {
               node.PenColor = null;
             };
-            treeContextMenu.MenuItems.Add(item);
+            treeContextMenu.Items.Add(item);
           }
-          treeContextMenu.MenuItems.Add(new MenuItem("-"));
+          treeContextMenu.Items.Add(new ToolStripSeparator());
           {
-            MenuItem item = new MenuItem("Show in Tray");
+            ToolStripMenuItem item = new ToolStripMenuItem("Show in Tray");
             item.Checked = systemTray.Contains(node.Sensor);
             item.Click += delegate(object obj, EventArgs args) {
               if (item.Checked)
@@ -736,10 +736,10 @@ namespace OpenHardwareMonitor.GUI {
               else
                 systemTray.Add(node.Sensor, true);
             };
-            treeContextMenu.MenuItems.Add(item);
+            treeContextMenu.Items.Add(item);
           }
           if (gadget != null) {
-            MenuItem item = new MenuItem("Show in Gadget");
+            ToolStripMenuItem item = new ToolStripMenuItem("Show in Gadget");
             item.Checked = gadget.Contains(node.Sensor);
             item.Click += delegate(object obj, EventArgs args) {
               if (item.Checked) {
@@ -748,27 +748,26 @@ namespace OpenHardwareMonitor.GUI {
                 gadget.Add(node.Sensor);
               }
             };
-            treeContextMenu.MenuItems.Add(item);
+            treeContextMenu.Items.Add(item);
           }
           if (node.Sensor.Control != null) {
-            treeContextMenu.MenuItems.Add(new MenuItem("-"));
+            treeContextMenu.Items.Add(new ToolStripSeparator());
             IControl control = node.Sensor.Control;
-            MenuItem controlItem = new MenuItem("Control");
-            MenuItem defaultItem = new MenuItem("Default");
+            ToolStripMenuItem controlItem = new ToolStripMenuItem("Control");
+            ToolStripMenuItem defaultItem = new ToolStripMenuItem("Default");
             defaultItem.Checked = control.ControlMode == ControlMode.Default;
-            controlItem.MenuItems.Add(defaultItem);
+            controlItem.DropDownItems.Add(defaultItem);
             defaultItem.Click += delegate(object obj, EventArgs args) {
               control.SetDefault();
             };
-            MenuItem manualItem = new MenuItem("Manual");
-            controlItem.MenuItems.Add(manualItem);
+            ToolStripMenuItem manualItem = new ToolStripMenuItem("Manual");
+            controlItem.DropDownItems.Add(manualItem);
             manualItem.Checked = control.ControlMode == ControlMode.Software;
             for (int i = 0; i <= 100; i += 5) {
               if (i <= control.MaxSoftwareValue &&
                   i >= control.MinSoftwareValue) {
-                MenuItem item = new MenuItem(i + " %");
-                item.RadioCheck = true;
-                manualItem.MenuItems.Add(item);
+                ToolStripMenuItem item = new ToolStripMenuItem(i + " %");
+                manualItem.DropDownItems.Add(item);
                 item.Checked = control.ControlMode == ControlMode.Software &&
                   Math.Round(control.SoftwareValue) == i;
                 int softwareValue = i;
@@ -777,7 +776,7 @@ namespace OpenHardwareMonitor.GUI {
                 };
               }
             }
-            treeContextMenu.MenuItems.Add(controlItem);
+            treeContextMenu.Items.Add(controlItem);
           }
 
           treeContextMenu.Show(treeView, new Point(m.X, m.Y));
@@ -785,14 +784,14 @@ namespace OpenHardwareMonitor.GUI {
 
         HardwareNode hardwareNode = info.Node.Tag as HardwareNode;
         if (hardwareNode != null && hardwareNode.Hardware != null) {
-          treeContextMenu.MenuItems.Clear();
+          treeContextMenu.Items.Clear();
 
           if (nodeTextBoxText.EditEnabled) {
-            MenuItem item = new MenuItem("Rename");
+            ToolStripMenuItem item = new ToolStripMenuItem("Rename");
             item.Click += delegate(object obj, EventArgs args) {
               nodeTextBoxText.BeginEdit();
             };
-            treeContextMenu.MenuItems.Add(item);
+            treeContextMenu.Items.Add(item);
           }
 
           treeContextMenu.Show(treeView, new Point(m.X, m.Y));

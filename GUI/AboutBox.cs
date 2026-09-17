@@ -29,13 +29,17 @@ namespace OpenHardwareMonitor.GUI {
 
       licenseLinkLabel.Links.Remove(licenseLinkLabel.Links[0]);
       licenseLinkLabel.Links.Add(0, licenseLinkLabel.Text.Length,
-        "License.html");
+        System.IO.Path.Combine(AppContext.BaseDirectory, "License.html"));
     }
 
     private void linkLabel_LinkClicked(object sender, 
       LinkLabelLinkClickedEventArgs e) {
       try {
-        Process.Start(new ProcessStartInfo(e.Link.LinkData.ToString()));
+        // UseShellExecute defaults to false on .NET (Core), but opening
+        // links and documents requires the shell
+        Process.Start(new ProcessStartInfo(e.Link.LinkData.ToString()) {
+          UseShellExecute = true
+        });
       } catch { }
     }
 
